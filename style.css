@@ -87,7 +87,8 @@ h2{
 }
 
 .message{
-  font-size: 15px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 18px;
   line-height: 2;
   margin-top: 10px;
   color: #c9b8d8;
@@ -102,16 +103,19 @@ h2{
 }
 
 #typingText{
+  font-family: 'Dancing Script', cursive;
   line-height: 1.9;
   margin: 8px 0 8px;
   min-height: 48px;
-  font-size: 13px;
+  font-size: 18px;
   color: #c9b8d8;
 }
 
 .sign{
+  font-family: 'Dancing Script', cursive;
   color: #e8c87a;
-  font-size: 13px;
+  font-size: 18px;
+  font-weight: 700;
   margin-top: 4px;
 }
 

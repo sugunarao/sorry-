@@ -1,0 +1,483 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background: url('background.jpg') center center / cover no-repeat fixed;
+  font-family: 'Noto Sans Telugu', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  overflow: hidden;
+  padding: 16px;
+}
+
+#starCanvas{
+  display: none;
+}
+
+.wrapper{
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+}
+
+.screen{ display: none; }
+
+.screen.active{
+  display: block;
+  animation: fadeSlideUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+@keyframes fadeSlideUp{
+  from{ opacity: 0; transform: translateY(24px) scale(0.97); }
+  to  { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Card ── */
+.card{
+  background: rgba(20, 14, 30, 0.82);
+  border: 1.5px solid rgba(100,180,255,0.35);
+  padding: 28px 22px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow:
+    0 0 18px rgba(80,160,255,0.2),
+    0 0 40px rgba(80,160,255,0.08),
+    inset 0 0 20px rgba(80,160,255,0.04);
+  backdrop-filter: blur(6px);
+}
+
+.glow-card{
+  border-color: rgba(120,200,255,0.55);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow{
+  0%,100%{
+    box-shadow:
+      0 0 20px rgba(80,160,255,0.25),
+      0 0 50px rgba(80,160,255,0.1),
+      inset 0 0 20px rgba(80,160,255,0.05);
+  }
+  50%{
+    box-shadow:
+      0 0 35px rgba(100,180,255,0.45),
+      0 0 70px rgba(80,160,255,0.18),
+      inset 0 0 30px rgba(80,160,255,0.08);
+  }
+}
+
+/* ── Typography ── */
+h1{
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #e8c87a;
+}
+
+h2{
+  font-size: 20px;
+  color: #e8c87a;
+  margin-bottom: 8px;
+}
+
+.message{
+  font-size: 15px;
+  line-height: 2;
+  margin-top: 10px;
+  color: #c9b8d8;
+}
+
+.teluguText{
+  font-size: 15px;
+  line-height: 2;
+  margin-bottom: 14px;
+  color: #c9b8d8;
+  text-align: center;
+}
+
+#typingText{
+  line-height: 1.9;
+  margin: 8px 0 8px;
+  min-height: 48px;
+  font-size: 13px;
+  color: #c9b8d8;
+}
+
+.sign{
+  color: #e8c87a;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* ── Heartbeat ── */
+.heartbeat{
+  animation: heartbeat 1.4s ease-in-out infinite;
+  display: inline-block;
+}
+@keyframes heartbeat{
+  0%,100%{ transform: scale(1);    }
+  14%    { transform: scale(1.13); }
+  28%    { transform: scale(1);    }
+  42%    { transform: scale(1.08); }
+  56%    { transform: scale(1);    }
+}
+
+/* ── Envelope ── */
+.envelope-scene{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.env-container{
+  position: relative;
+  width: 260px;
+  height: 180px;
+  filter: drop-shadow(0 8px 24px rgba(80,160,255,0.3));
+}
+
+.env-body{
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 260px; height: 150px;
+  background: rgba(20,14,40,0.9);
+  border: 2px solid rgba(100,180,255,0.4);
+  border-radius: 4px 4px 12px 12px;
+  z-index: 1;
+}
+
+.env-flap{
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  border-left:  130px solid transparent;
+  border-right: 130px solid transparent;
+  border-top:   90px solid #5ab4ff;
+  z-index: 2;
+  transform-origin: top center;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  filter: brightness(0.85);
+}
+
+.env-container.open .env-flap{
+  transform: rotateX(180deg);
+}
+
+.env-letter{
+  position: absolute;
+  bottom: 10px;
+  left: 12px; right: 12px;
+  background: #f5f0e8;
+  border-radius: 6px;
+  padding: 14px 16px 12px;
+  z-index: 4;
+  text-align: center;
+  transform: translateY(0);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.22,1,0.36,1) 0.4s,
+              opacity 0.5s ease 0.4s;
+}
+
+.env-container.open .env-letter{
+  transform: translateY(-155px);
+  opacity: 1;
+}
+
+.letter-name{
+  font-size: 15px;
+  font-weight: 600;
+  color: #3a2a10;
+  margin-bottom: 8px;
+}
+
+.letter-name{
+  font-family: 'Dancing Script', cursive;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2a1a05;
+  margin-bottom: 10px;
+}
+
+.letter-body{
+  font-family: 'Dancing Script', cursive;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #3a2a10;
+}
+
+.letter-sign{
+  font-family: 'Dancing Script', cursive;
+  font-size: 17px;
+  color: #c8882a;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.env-hint{
+  font-size: 14px;
+  color: rgba(160,210,255,0.95);
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(100,180,255,0.8);
+  animation: blinkHint 2s ease-in-out infinite;
+  position: absolute;
+  bottom: 18px;
+  left: 0; right: 0;
+  z-index: 3;
+}
+
+@keyframes blinkHint{
+  0%,100%{ opacity: 0.4; }
+  50%    { opacity: 1;   }
+}
+
+/* ── Buttons ── */
+.btn{
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 20px;
+  border: 1.5px solid rgba(120,200,255,0.6);
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(60,140,255,0.3), rgba(100,180,255,0.15));
+  color: #a8d8ff;
+  cursor: pointer;
+  font-family: 'Noto Sans Telugu', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 0 12px rgba(80,160,255,0.2), inset 0 0 10px rgba(80,160,255,0.05);
+  backdrop-filter: blur(4px);
+}
+
+.btn:active{
+  transform: scale(0.97);
+  box-shadow: 0 0 20px rgba(80,160,255,0.4);
+}
+
+.btn.secondary{
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(120,200,255,0.25);
+  color: rgba(160,210,255,0.6);
+  font-weight: 400;
+  box-shadow: none;
+}
+
+/* ── Photo layout ── */
+.photoContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.acceptedPhoto{
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Photo frame ── */
+.photoFrame{
+  border-radius: 16px;
+  padding: 4px;
+  background: rgba(80,160,255,0.1);
+  border: 2px solid rgba(100,180,255,0.3);
+}
+
+.photoFrame.gold{
+  background: linear-gradient(135deg, #5ab4ff, #2060c0, #5ab4ff);
+  border: none;
+  padding: 3px;
+  animation: frameShine 3s ease-in-out infinite;
+}
+
+@keyframes frameShine{
+  0%,100%{ box-shadow: 0 0 18px rgba(80,160,255,0.5); }
+  50%    { box-shadow: 0 0 32px rgba(100,180,255,0.8); }
+}
+
+.friendPhoto{
+  width: 100%;
+  max-width: 220px;
+  border-radius: 13px;
+  display: block;
+  animation: zoom 8s ease-in-out infinite alternate;
+}
+
+@keyframes zoom{
+  0%  { transform: scale(1); }
+  100%{ transform: scale(1.06); }
+}
+
+/* ══ GALLERY OVERLAY ══ */
+#galleryOverlay{
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
+#galleryOverlay.open{
+  display: flex;
+  flex-direction: column;
+  animation: fadeSlideUp 0.4s ease forwards;
+}
+
+.gallery-bg{
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.45) saturate(1.4);
+  transform: scale(1.1);
+  transition: background-image 0.5s ease;
+}
+
+.gallery-ui{
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 16px 32px;
+}
+
+.gallery-top{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gallery-back{
+  background: rgba(80,160,255,0.15);
+  border: 1px solid rgba(120,200,255,0.4);
+  color: #a8d8ff;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Noto Sans Telugu', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+.gallery-back:active{ transform: scale(0.96); }
+
+.gallery-counter{
+  font-size: 13px;
+  color: rgba(160,210,255,0.6);
+  letter-spacing: 1px;
+}
+
+.gallery-main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  flex: 1;
+  padding: 8px 0;
+}
+
+.gallery-img{
+  max-width: calc(100vw - 90px);
+  max-height: 60vh;
+  border-radius: 18px;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.gallery-img.fade{
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.gallery-arrow{
+  background: rgba(80,160,255,0.15);
+  border: 1px solid rgba(120,200,255,0.3);
+  color: #a8d8ff;
+  font-size: 30px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.gallery-arrow:active{ background: rgba(80,160,255,0.35); }
+
+.gallery-caption{
+  font-size: 14px;
+  color: rgba(160,210,255,0.8);
+  letter-spacing: 1px;
+  text-align: center;
+  min-height: 22px;
+}
+
+.gallery-dots{
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.gdot{
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.28);
+  transition: background 0.3s, transform 0.3s;
+}
+.gdot.active{
+  background: #5ab4ff;
+  transform: scale(1.35);
+}
+
+/* ── Emoji rain ── */
+#emojiRain{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.rain-emoji{
+  position: absolute;
+  font-size: 26px;
+  animation: fall 3s linear forwards;
+  top: -40px;
+}
+
+@keyframes fall{
+  to{ transform: translateY(110vh) rotate(30deg); opacity: 0; }
+}
+
+/* ── Tablet+ ── */
+@media (min-width: 480px){
+  .card{ padding: 36px 32px; }
+  h1{ font-size: 30px; }
+  h2{ font-size: 22px; }
+  .message{ font-size: 16px; }
+  .teluguText{ font-size: 17px; text-align: left; }
+  #typingText{ font-size: 14px; }
+  .photoContainer{ flex-direction: row; align-items: center; gap: 20px; text-align: left; }
+  .photoFrame{ flex-shrink: 0; }
+  .friendPhoto{ width: 160px; max-width: 160px; }
+}

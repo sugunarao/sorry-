@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Babai Sorry</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+
+<div class="wrapper">
+
+  <!-- SCREEN 0: Envelope -->
+  <div class="screen active" id="screen0">
+    <div class="envelope-scene">
+      <div class="env-container" id="envContainer">
+        <div class="env-flap"></div>
+        <div class="env-letter">
+          <p class="letter-name">Bhasha Bhai 💛</p>
+            <p class="letter-body">Sorry Babai… that day the situation was different. Please forget everything that happened. I'm extremely sorry. Let's leave all that behind and be like we always were.</p>
+          <p class="letter-sign">— Sanju</p>
+        </div>
+        <div class="env-body">
+        <p class="env-hint" id="envHint">tap to open 💌</p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- SCREEN 1: Main Sorry -->
+  <div class="screen" id="screen1">
+    <div class="card">
+      <h1 class="heartbeat">Bhasha Bhai 💛</h1>
+      <p class="message">
+        నిన్ను hurt చేసినందుకు నిజంగా చాలా బాధగా ఉంది.<br>
+        నీ friendship నాకు చాలా కావాలి.
+      </p>
+      <button class="btn" id="acceptBtn">Sorry Accepted ✅</button>
+      <button class="btn secondary" id="denyBtn">Sorry Denied ❌</button>
+    </div>
+  </div>
+
+  <!-- DENIED SCREEN -->
+  <div class="screen" id="screenDenied">
+    <div class="card">
+      <div class="photoContainer">
+        <div class="photoFrame">
+          <img src="babai apology image.png" class="friendPhoto">
+        </div>
+        <div>
+          <p class="teluguText">
+            క్షమించడం అంటే ఓడిపోవడం కాదు…<br>
+            మనసు ఎంత గొప్పదో చూపించడం
+          </p>
+          <button class="btn" id="redirectAccept">Sorry Accept 🙏</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCEPTED SCREEN -->
+  <div class="screen" id="screenAccepted">
+    <div class="card glow-card">
+      <div class="acceptedPhoto">
+        <div class="photoFrame gold">
+          <img src="sorry accepted image.png" class="friendPhoto">
+        </div>
+      </div>
+      <h2 class="heartbeat" style="margin-top:14px;">Bhasha Bhai 💛</h2>
+      <p id="typingText"></p>
+      <p class="sign">— Sanju</p>
+      <button class="btn" id="galleryBtn">📸 Bhasha Photo Gallery</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- GALLERY OVERLAY — full screen, outside wrapper -->
+<div id="galleryOverlay">
+  <div class="gallery-bg" id="galleryBg"></div>
+  <div class="gallery-ui">
+    <div class="gallery-top">
+      <button class="gallery-back" id="galleryBack">← Back</button>
+      <span class="gallery-counter" id="galleryCounter">1 / 5</span>
+    </div>
+    <div class="gallery-main">
+      <button class="gallery-arrow" id="prevBtn">&#8249;</button>
+      <img class="gallery-img" id="galleryImg" src="">
+      <button class="gallery-arrow" id="nextBtn">&#8250;</button>
+    </div>
+    <div class="gallery-caption" id="galleryCaption"></div>
+    <div class="gallery-dots" id="galleryDots"></div>
+  </div>
+</div>
+
+<div id="emojiRain"></div>
+
+<audio id="startMusic" src="starting page.mp3" loop></audio>
+<audio id="happyMusic" src="sorry accepted music.mp3" loop></audio>
+<audio id="sadMusic"   src="apology music.mp3" loop></audio>
+<script>
+    (function(){
+      function askPassword(){
+        const pass = prompt("🔐 Enter password to open:");
+        if(pass === null){
+          document.body.innerHTML = "<div style='display:flex;align-items:center;justify-content:center;height:100vh;background:#0d0b0f;color:white;font-size:20px;font-family:sans-serif'>🔒 Access Denied</div>";
+          return;
+        }
+        if(pass !== "bhasha123"){
+          alert("❌ Wrong password! Please enter correct password.");
+          askPassword();
+        }
+      }
+      askPassword();
+    })();
+  </script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

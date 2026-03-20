@@ -337,7 +337,7 @@ h2{
 #galleryOverlay.open{
   display: flex;
   flex-direction: column;
-  animation: fadeSlideUp 0.4s ease forwards;
+  animation: fadeSlideUp 0.9s ease forwards;
 }
 
 .gallery-bg{
@@ -347,7 +347,7 @@ h2{
   background-position: center;
   filter: blur(8px) brightness(0.45) saturate(1.4);
   transform: scale(1.1);
-  transition: background-image 0.5s ease;
+  transition: background-image 0.9s ease;
 }
 
 .gallery-ui{
